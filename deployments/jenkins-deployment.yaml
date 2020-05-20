@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-app
+  template:
+    metadata:
+      labels:
+        app: jenkins-app
+    spec:
+      containers:
+      - name: jenkins-pod
+        image: jenkins/jenkins:2.237-alpine
+        ports:
+        - containerPort: 50000
+        - containerPort: 8080
+volumeMounts:
+          - name: jenkins-home
+            mountPath: c:\\k8s-volume\\jenkins
+      volumes:
+        - name: jenkins-home
+          emptyDir: {}
