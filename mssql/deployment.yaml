@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mssql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssql-app
+  template:
+    metadata:
+      labels:
+        app: mssql-app
+    spec:
+      containers:
+      - name: mssql-pod
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          value: "!Password123"
+        - name: MSSQL_PID
+          value: "Express"
+        ports:
+        - containerPort: 1433
+#        volumeMounts:
+#        - name: mssql
+#          mountPath: /var/opt/mssql/data
+#      volumes:
+#      - name: mssql
+#        persistentVolumeClaim:
+#          claimName: mssql
